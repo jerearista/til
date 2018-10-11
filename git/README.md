@@ -4,8 +4,10 @@
 
 ```
 git remote add upstream git@github.com:some_user/some_repo.git
+git checkout master
 git fetch upstream
 git rebase upstream/master
+git push
 ```
 
 ## Dev flow on a fork
@@ -47,3 +49,16 @@ git checkout master
 git reset --hard upstream/master  
 git push origin master --force
 ```
+
+## Checking out and working with Pull Requests
+
+https://github.com/TeamPorcupine/ProjectPorcupine/wiki/How-to-Test-a-Pull-Request
+
+```
+git config --global --add alias.pr '!f() { git fetch -fu ${2:-upstream} refs/pull/$1/head:pr/$1 && git checkout pr/$1; }; f'
+
+git config --global --add alias.pr-clean '!git checkout master ; git for-each-ref refs/heads/pr/* --format="%(refname)" | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done'
+```
+
+https://help.github.com/articles/checking-out-pull-requests-locally/  
+https://gist.github.com/piscisaureus/3342247
